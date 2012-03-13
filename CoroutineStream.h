@@ -81,22 +81,6 @@ private:
 
     char _pstack[CR_STREAM_STACKSIZE];
     ucontext_t consumer_context, producer_context;
-
-    // Can only pass integer args to makecontext. This code wrapes a pointer
-    // into two integer args in a very non portable way.
-    struct ContextArgHacker {
-        ContextArgHacker(CoroutineStream *ptr) : _ptr(ptr) {}
-        ContextArgHacker(int a0, int a1) { getArr()[0] = a0; getArr()[1] = a1; }
-
-        int getA0()              { return getArr()[0]; }
-        int getA1()              { return getArr()[1]; }
-        int *getArr()            { return reinterpret_cast<int*>(&_ptr); }
-        CoroutineStream* getPtr() { return _ptr; }
-
-    private:
-        CoroutineStream *_ptr;
-    };
-
 };
 
 
